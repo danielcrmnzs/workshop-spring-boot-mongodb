@@ -1,25 +1,26 @@
 package com.dcoimbra.workshopmongo.resources;
 
-import java.util.Arrays;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dcoimbra.workshopmongo.domain.User;
+import com.dcoimbra.workshopmongo.services.UserService;
 
 @RestController
 @RequestMapping(value = "/users")
 public class UserResource {
 
+	@Autowired
+	private UserService userService;
+
 	@GetMapping
 	public ResponseEntity<List<User>> findAll() {
-		User maria = User.builder().id("1").name("Maria Silva").email("maria@email.com").build();
-		User alex = User.builder().id("2").name("Alex Green").email("alex@email.com").build();
-
-		return ResponseEntity.ok().body(Arrays.asList(maria, alex));
+		return ResponseEntity.ok().body(userService.findAll());
 	}
 
 }
