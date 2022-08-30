@@ -11,19 +11,18 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
-public class UserDTO implements Serializable {
+@NoArgsConstructor
+public class AuthorDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	private String id;
 	private String name;
-	private String email;
 
-	public UserDTO(User user) {
+	public AuthorDTO(User user) {
 		this.id = user.getId();
 		this.name = user.getName();
-		this.email = user.getEmail();
 	}
+
 }
