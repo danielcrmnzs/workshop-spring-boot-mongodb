@@ -1,0 +1,23 @@
+package com.dcoimbra.workshopmongo.services;
+
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.dcoimbra.workshopmongo.domain.Post;
+import com.dcoimbra.workshopmongo.repositories.PostRepository;
+import com.dcoimbra.workshopmongo.services.exception.ObjectNotFoundException;
+
+@Service
+public class PostService {
+
+	@Autowired
+	private PostRepository postRepository;
+
+	public Post findById(String id) {
+		Optional<Post> optPost = postRepository.findById(id);
+		return optPost.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado"));
+	}
+
+}
