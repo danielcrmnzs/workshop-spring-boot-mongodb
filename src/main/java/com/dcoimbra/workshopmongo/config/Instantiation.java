@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 import com.dcoimbra.workshopmongo.domain.Post;
 import com.dcoimbra.workshopmongo.domain.User;
 import com.dcoimbra.workshopmongo.dto.AuthorDTO;
+import com.dcoimbra.workshopmongo.dto.CommentDTO;
 import com.dcoimbra.workshopmongo.repositories.PostRepository;
 import com.dcoimbra.workshopmongo.repositories.UserRepository;
 
@@ -34,10 +35,18 @@ public class Instantiation implements CommandLineRunner {
 
 		userRepository.saveAll(Arrays.asList(maria, alex, bob));
 
-		Post post1 = new Post(null, LocalDate.of(2022, 7, 1), "Partiu viagem", "Vou viajar para São Paulo. Abraços!",
-				new AuthorDTO(maria));
-		Post post2 = new Post(null, LocalDate.of(2022, 7, 3), "Bom dia", "Acordei feliz hoje!", new AuthorDTO(maria));
+		Post post1 = Post.builder().date(LocalDate.of(2022, 7, 1)).title("Partiu viagem")
+				.body("Vou viajar para São Paulo. Abraços!").author(new AuthorDTO(maria)).build();
+		Post post2 = Post.builder().date(LocalDate.of(2022, 7, 3)).title("Bom dia").body("Acordei feliz hoje!")
+				.author(new AuthorDTO(maria)).build();
 
+		CommentDTO c1 = CommentDTO.builder().text("Boa viagem!").date(LocalDate.of(2022, 7, 1)).author(new AuthorDTO(alex)).build();
+		CommentDTO c2 = CommentDTO.builder().text("Aproveite").date(LocalDate.of(2022, 7, 2)).author(new AuthorDTO(bob)).build();
+		CommentDTO c3 = CommentDTO.builder().text("Tenha um ótimo dia!").date(LocalDate.of(2022, 7, 3)).author(new AuthorDTO(alex)).build();
+		
+		post1.getComments().addAll(Arrays.asList(c1, c2));
+		post2.getComments().addAll(Arrays.asList(c3));
+		
 		postRepository.saveAll(Arrays.asList(post1, post2));
 
 		maria.getPosts().addAll(Arrays.asList(post1, post2));
